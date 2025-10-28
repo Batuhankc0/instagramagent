@@ -1,0 +1,74 @@
+# #################### #
+#  Hassas Bilgiler     #
+# #################### #
+
+
+.env
+.env.*
+!.env.example
+
+
+
+.venv/
+env/
+ENV/
+
+# Python cache dosyaları ve klasörleri
+# Python, hızı artırmak için derlenmiş .pyc dosyaları oluşturur. Bunlar gereksizdir.
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Dağıtım ve paketleme dosyaları
+# Projenizi paketlediğinizde oluşan klasörler.
+/dist/
+/build/
+*.egg-info/
+
+
+# #################### #
+#  Render'a Özel & Geçici Dosyalar #
+# #################### #
+
+# Flask uygulamasında kullanıcıların yüklediği videoların geçici olarak tutulduğu klasör.
+# Bu klasörün içeriği repo'da olmamalıdır.
+uploads/
+
+
+# #################### #
+#  IDE / Editör Ayarları #
+# #################### #
+
+# Visual Studio Code proje ayarları klasörü
+.vscode/
+
+# PyCharm proje ayarları klasörü
+.idea/
+
+# Sublime Text proje ayarları
+*.sublime-project
+*.sublime-workspace
+
+
+# #################### #
+#  İşletim Sistemi Dosyaları #
+# #################### #
+
+# macOS özel dosyaları
+.DS_Store
+.DS_Store?
+
+# Windows özel dosyaları (önizleme resimleri vb.)
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+
+
+# #################### #
+#  Log Dosyaları       #
+# #################### #
+
+# Uygulama loglarını yoksay
+*.log
+logs/

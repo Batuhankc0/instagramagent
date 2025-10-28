@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Instagram Reels Yükleyici</title>
+    <style> body { font-family: sans-serif; max-width: 600px; margin: auto; padding: 20px; } </style>
+</head>
+<body>
+    <h1>Reels Videosu Yükle</h1>
+    <p>Bilgisayarınızdan bir video dosyası seçin ve Instagram'a gönderin.</p>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <p>
+            <label for="caption">Reels Başlığı:</label><br>
+            <textarea id="caption" name="caption" rows="4" cols="50" required>Render.com üzerinden yüklendi! 🚀</textarea>
+        </p>
+        <p>
+            <label for="video">Video Dosyası (.mp4):</label><br>
+            <input type="file" id="video" name="video" accept="video/mp4" required>
+        </p>
+        <button type="submit">Reels'i Yükle</button>
+    </form>
+</body>
+</html>
