@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Genel Elementler
+    // General Elements
     const statusMessage = document.getElementById('status-message');
 
-    // --- Sekme Yönetimi ---
+    // --- Tab Management ---
     const tabButtons = document.querySelectorAll('.tab-button');
     const tabContents = document.querySelectorAll('.tab-content');
 
@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- Medya Yükleme Mantığı ---
+    // --- Media Uploader Logic ---
     const uploadForm = document.getElementById('upload-form');
     const uploadButton = document.getElementById('upload-button');
     const mediaTypeSelect = document.getElementById('media-type');
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const mediaUrl = document.getElementById('media-url').value;
         const caption = document.getElementById('caption').value;
 
-        showStatus('İşlem başlatıldı, lütfen bekleyin... Bu işlem birkaç dakika sürebilir.', 'info');
+        showStatus('Process started, please wait... This might take a few minutes.', 'info');
         uploadButton.disabled = true;
 
         const result = await sendRequest('/upload', {
@@ -44,32 +44,32 @@ document.addEventListener('DOMContentLoaded', () => {
             showStatus(result.message, 'success');
             uploadForm.reset();
         } else {
-            showStatus(`Hata: ${result.message}`, 'error');
+            showStatus(`Error: ${result.message}`, 'error');
         }
         uploadButton.disabled = false;
     });
 
-    // --- Yorum Yönetimi Mantığı ---
+    // --- Comment Management Logic ---
     const fetchPostsButton = document.getElementById('fetch-posts-button');
     const postsSelect = document.getElementById('posts-select');
     const commentsContainer = document.getElementById('comments-container');
 
     fetchPostsButton.addEventListener('click', async () => {
-        showStatus('Son gönderiler getiriliyor...', 'info');
+        showStatus('Fetching latest posts...', 'info');
         const result = await sendRequest('/get-posts', null, 'GET');
         
         if (result.status === 'success' && result.data.length > 0) {
-            postsSelect.innerHTML = '<option value="">-- Bir gönderi seçin --</option>'; // Temizle ve başlık ekle
+            postsSelect.innerHTML = '<option value="">-- Select a post --</option>'; // Clear and add title
             result.data.forEach(post => {
                 const option = document.createElement('option');
                 option.value = post.id;
-                const captionText = post.caption ? post.caption.replace(/\n/g, ' ').substring(0, 40) + '...' : 'Açıklama yok';
+                const captionText = post.caption ? post.caption.replace(/\n/g, ' ').substring(0, 40) + '...' : 'No caption';
                 option.textContent = `${post.media_type}: ${captionText}`;
                 postsSelect.appendChild(option);
             });
-            showStatus('Gönderiler başarıyla getirildi. Lütfen birini seçin.', 'success');
+            showStatus('Posts fetched successfully. Please select one.', 'success');
         } else {
-            showStatus(result.message || 'Hiç gönderi bulunamadı.', 'error');
+            showStatus(result.message || 'No posts found.', 'error');
         }
     });
 
@@ -79,34 +79,31 @@ document.addEventListener('DOMContentLoaded', () => {
             commentsContainer.innerHTML = '';
             return;
         }
-        showStatus('Yorumlar getiriliyor...', 'info');
+        showStatus('Fetching comments...', 'info');
         const result = await sendRequest('/get-comments', { media_id: mediaId });
 
-        commentsContainer.innerHTML = ''; // Önceki yorumları temizle
+        commentsContainer.innerHTML = ''; // Clear previous comments
         if (result.status === 'success' && result.data.length > 0) {
             result.data.forEach(comment => {
                 const commentEl = document.createElement('div');
                 commentEl.className = 'comment';
-                // ******************************************************
-                // ***** İSTEDİĞİNİZ DEĞİŞİKLİK BU SATIRDA YAPILDI *****
-                // ******************************************************
                 commentEl.innerHTML = `
-                    <p class="username">Kullanıcı Adı: @${comment.username}</p>
+                    <p class="username">Username: @${comment.username}</p>
                     <p class="comment-text">${comment.text}</p>
                     <form class="reply-form" data-comment-id="${comment.id}">
-                        <input type="text" class="reply-input" placeholder="Yanıt yaz..." required>
-                        <button type="submit" class="reply-button">Yanıtla</button>
+                        <input type="text" class="reply-input" placeholder="Write a reply..." required>
+                        <button type="submit" class="reply-button">Reply</button>
                     </form>
                 `;
                 commentsContainer.appendChild(commentEl);
             });
-            showStatus('Yorumlar başarıyla getirildi.', 'success');
+            showStatus('Comments fetched successfully.', 'success');
         } else {
-            showStatus(result.message || 'Hiç yorum bulunamadı.', 'info');
+            showStatus(result.message || 'No comments found.', 'info');
         }
     });
     
-    // Yanıtlama formları için olay delegasyonu
+    // Event delegation for reply forms
     commentsContainer.addEventListener('submit', async (event) => {
         if (event.target.classList.contains('reply-form')) {
             event.preventDefault();
@@ -116,21 +113,21 @@ document.addEventListener('DOMContentLoaded', () => {
             const button = form.querySelector('.reply-button');
 
             button.disabled = true;
-            showStatus('Yanıt gönderiliyor...', 'info');
+            showStatus('Sending reply...', 'info');
             
             const result = await sendRequest('/reply', { comment_id: commentId, message: message });
 
             if (result.status === 'success') {
                 showStatus(result.message, 'success');
-                form.querySelector('.reply-input').value = ''; // Yanıt kutusunu temizle
+                form.querySelector('.reply-input').value = ''; // Clear reply box
             } else {
-                showStatus(`Hata: ${result.message}`, 'error');
+                showStatus(`Error: ${result.message}`, 'error');
             }
             button.disabled = false;
         }
     });
 
-    // --- Yardımcı Fonksiyonlar ---
+    // --- Helper Functions ---
     function showStatus(message, type) {
         statusMessage.textContent = message;
         statusMessage.className = type;
@@ -148,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch(url, options);
             return await response.json();
         } catch (error) {
-            return { status: 'error', message: `Ağ hatası: ${error.message}` };
+            return { status: 'error', message: `Network error: ${error.message}` };
         }
     }
 });

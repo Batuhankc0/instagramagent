@@ -1,54 +1,54 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Instagram Yönetim Paneli</title>
+    <title>Instagram Management Panel</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <div class="container">
-        <h1>Instagram Yönetim Paneli</h1>
+        <h1>Instagram Management Panel</h1>
         
-        <!-- Sekme Butonları -->
+        <!-- Tab Buttons -->
         <div class="tabs">
-            <button class="tab-button active" data-tab="uploader">Medya Yükle</button>
-            <button class="tab-button" data-tab="comments">Yorum Yönetimi</button>
+            <button class="tab-button active" data-tab="uploader">Upload Media</button>
+            <button class="tab-button" data-tab="comments">Comment Management</button>
         </div>
 
-        <!-- Medya Yükleme Sekmesi İçeriği -->
+        <!-- Media Uploader Tab Content -->
         <div id="uploader" class="tab-content active">
             <form id="upload-form">
-                <label for="media-type">Yükleme Türü:</label>
+                <label for="media-type">Upload Type:</label>
                 <select id="media-type" name="media-type">
-                    <option value="reel">Reels Yükle</option>
-                    <option value="video_story">Video Hikaye Yükle</option>
-                    <option value="image_story">Fotoğraf Hikaye Yükle</option>
+                    <option value="reel">Upload Reel</option>
+                    <option value="video_story">Upload Video Story</option>
+                    <option value="image_story">Upload Image Story</option>
                 </select>
-                <label for="media-url">Medya URL:</label>
+                <label for="media-url">Media URL:</label>
                 <input type="url" id="media-url" name="media-url" placeholder="https://..." required>
                 <div id="caption-container">
-                    <label for="caption">Açıklama (Caption):</label>
+                    <label for="caption">Caption:</label>
                     <textarea id="caption" name="caption" rows="4"></textarea>
                 </div>
-                <button type="submit" id="upload-button">Yükle</button>
+                <button type="submit" id="upload-button">Upload</button>
             </form>
         </div>
 
-        <!-- Yorum Yönetimi Sekmesi İçeriği -->
+        <!-- Comment Management Tab Content -->
         <div id="comments" class="tab-content">
-            <button id="fetch-posts-button">Son Gönderileri Getir</button>
-            <label for="posts-select">Yorumlarını Görmek İçin Bir Gönderi Seçin:</label>
+            <button id="fetch-posts-button">Fetch Latest Posts</button>
+            <label for="posts-select">Select a Post to See Comments:</label>
             <select id="posts-select">
-                <option value="">-- Önce Gönderileri Getir --</option>
+                <option value="">-- Fetch Posts First --</option>
             </select>
             <hr>
             <div id="comments-container">
-                <!-- Yorumlar buraya JavaScript ile eklenecek -->
+                <!-- Comments will be added here by JavaScript -->
             </div>
         </div>
         
-        <!-- Genel Durum Mesajı Alanı -->
+        <!-- Global Status Message Area -->
         <div id="status-message"></div>
     </div>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
