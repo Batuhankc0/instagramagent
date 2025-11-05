@@ -87,8 +87,11 @@ document.addEventListener('DOMContentLoaded', () => {
             result.data.forEach(comment => {
                 const commentEl = document.createElement('div');
                 commentEl.className = 'comment';
+                // ******************************************************
+                // ***** İSTEDİĞİNİZ DEĞİŞİKLİK BU SATIRDA YAPILDI *****
+                // ******************************************************
                 commentEl.innerHTML = `
-                    <p class="username">@${comment.username}</p>
+                    <p class="username">Kullanıcı Adı: @${comment.username}</p>
                     <p class="comment-text">${comment.text}</p>
                     <form class="reply-form" data-comment-id="${comment.id}">
                         <input type="text" class="reply-input" placeholder="Yanıt yaz..." required>
